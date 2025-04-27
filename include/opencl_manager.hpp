@@ -10,6 +10,8 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
+#include <stdexcept>
 
 class OpenCLManager {
   public:
@@ -28,6 +30,8 @@ class OpenCLManager {
 
 std::string loadKernelSource(const std::string &path);
 std::vector<cl_uchar4> readImageArray(const std::string &file_name);
+void writeImageArray(const std::string &file_name, const std::vector<cl_uchar4> &image_array, uint32_t width,
+                     uint32_t height);
 std::pair<uint32_t, uint32_t> getImageSize(const std::string &file_name);
 
 #endif // OPENCL_MANAGER_HPP

@@ -1,10 +1,10 @@
 #include "image_processor.hpp"
 
-ImageProcessor::ImageProcessor(OpenCLManager &manager, const char *kernelSource, const std::string &kernelName)
+ImageProcessor::ImageProcessor(OpenCLManager &manager, const std::string &kernelSource, const std::string &kernelName)
     : manager(manager) {
     // Create and build program
     cl::Program::Sources sources;
-    sources.push_back({ kernelSource, strlen(kernelSource) });
+    sources.push_back({ kernelSource.c_str(), kernelSource.size() });
     program = cl::Program(manager.getContext(), sources);
     try {
         program.build({ manager.getDevice() });

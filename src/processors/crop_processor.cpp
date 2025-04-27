@@ -1,18 +1,18 @@
 #include "processors/crop_processor.hpp"
 
-#include <stdexcept>
-#include <fstream>
-
-CropProcessor::CropProcessor(OpenCLManager &manager, uint32_t start_x, uint32_t start_y)
-    : ImageProcessor(manager, cropKernelSource, "crop"), start_x(start_x), start_y(start_y) {
+CropProcessor::CropProcessor(OpenCLManager &manager)
+    : ImageProcessor(manager, loadKernelSource("../kernels/crop.cl"), "crop") {
 }
 
-std::vector<cl_uchar4> CropProcessor::process(const std::vector<cl_uchar4> &input_array, uint32_t in_width,
-                                              uint32_t in_height, uint32_t out_width, uint32_t out_height) {
+std::vector<cl_uchar4> CropProcessor::process(const std::vector<cl_uchar4> &input_array, //
+                                              uint32_t in_width, uint32_t in_height,     //
+                                              uint32_t out_width, uint32_t out_height,   //
+                                              uint32_t start_x, uint32_t start_y) {
     // Validate inputs
     if (input_array.size() < in_width * in_height) {
         throw std::runtime_error("Input array size is too small");
     }
+
     if (start_x + out_width > in_width || start_y + out_height > in_height) {
         throw std::runtime_error("Crop region exceeds input dimensions");
     }
@@ -53,21 +53,3 @@ std::vector<cl_uchar4> CropProcessor::process(const std::vector<cl_uchar4> &inpu
 
     return output_array;
 }
-
-const char *CropProcessor::cropKernelSource = R"(
-    __kernel void crop(__global const uchar4* input,
-                       __global uchar4* output,
-                       uint in_width,
-                       uint out_width,
-                       uint out_height,
-                       uint start_x,
-                       uint start_y) {
-        uint x = get_global_id(0);
-        uint y = get_global_id(1);
-        if (x < out_width && y < out_height) {
-            uint in_idx = (y + start_y) * in_width + (x + start_x);
-            uint out_idx = y * out_width + x;
-            output[out_idx] = input[in_idx];
-        }
-    }
-)";
