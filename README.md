@@ -24,7 +24,8 @@ A modular C++ and OpenCL-based project for performing image processing operation
 
 1. **Clone the repository**:
    ```bash
-   cd image-processing-opencl
+   git clone https://github.com/solidironmeat/opencl-image-processing.git
+   cd opencl-image-processing
    ```
 
 2. **Create a build directory**:
