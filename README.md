@@ -24,8 +24,7 @@ A modular C++ and OpenCL-based project for performing image processing operation
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/image_processing_opencl.git
-   cd image_processing_opencl
+   cd image-processing-opencl
    ```
 
 2. **Create a build directory**:
