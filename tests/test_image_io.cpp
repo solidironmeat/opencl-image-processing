@@ -14,7 +14,7 @@ TEST(ImageIOTest, ReadWrite) {
     ASSERT_EQ(in_height, 800);
     ASSERT_EQ(image.size(), in_width * in_height);
 
-    std::string output_name = "resources/test_output.png";
+    std::string output_name = "out/test_output.png";
     writeImageArray(output_name, image, in_width, in_height);
     auto exp_image = readImageArray(output_name);
     auto [exp_out_width, exp_out_height] = getImageSize(output_name);
@@ -27,8 +27,8 @@ TEST(ImageIOTest, ReadWrite) {
         cl_uchar4 exp_pixel = exp_image[i];
 
         EXPECT_EQ(pixel.x, exp_pixel.x); // Red channel
-        // EXPECT_EQ(pixel.y, exp_pixel.y); // Green channel
-        // EXPECT_EQ(pixel.z, exp_pixel.z); // Blue channel
-        // EXPECT_EQ(pixel.w, exp_pixel.w); // Alpha channel
+        EXPECT_EQ(pixel.y, exp_pixel.y); // Green channel
+        EXPECT_EQ(pixel.z, exp_pixel.z); // Blue channel
+        EXPECT_EQ(pixel.w, exp_pixel.w); // Alpha channel
     }
 }

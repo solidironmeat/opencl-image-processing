@@ -32,12 +32,11 @@ TEST(CropProcessorTest, InputImage) {
 
     ASSERT_EQ(cropped.size(), out_width * out_height); // 2x2 output
 
-    std::string output_name = "resources/test_cropped.png";
+    std::string output_name = "out/test_cropped.png";
     writeImageArray(output_name, cropped, out_width, out_height);
 
     auto exp_cropped = readImageArray(output_name);
     auto [exp_out_width, exp_out_height] = getImageSize(output_name);
-    writeImageArray("resources/test_exp_cropped.png", exp_cropped, exp_out_width, exp_out_height);
 
     ASSERT_EQ(out_width, exp_out_width);
     ASSERT_EQ(out_height, exp_out_width);
@@ -46,9 +45,9 @@ TEST(CropProcessorTest, InputImage) {
         cl_uchar4 pixel = cropped[i];
         cl_uchar4 exp_pixel = exp_cropped[i];
 
-        // EXPECT_EQ(pixel.x, exp_pixel.x); // Red channel
-        // EXPECT_EQ(pixel.y, exp_pixel.y); // Green channel
-        // EXPECT_EQ(pixel.z, exp_pixel.z); // Blue channel
-        // EXPECT_EQ(pixel.w, exp_pixel.w); // Alpha channel
+        EXPECT_EQ(pixel.x, exp_pixel.x); // Red channel
+        EXPECT_EQ(pixel.y, exp_pixel.y); // Green channel
+        EXPECT_EQ(pixel.z, exp_pixel.z); // Blue channel
+        EXPECT_EQ(pixel.w, exp_pixel.w); // Alpha channel
     }
 }

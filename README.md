@@ -48,9 +48,24 @@ A modular C++ and OpenCL-based project for performing image processing operation
 
 1. **Run the main application**:
    ```bash
-   ./image_processing
+   ./image_processing resources/input.png 
    ```
    The default `main.cpp` demonstrates a pipeline of crop, grayscale, and halftone operations on a sample image (if image I/O is configured).
+
+   **Input**:
+
+   <img src="resources/input.png" alt="drawing" width="200"/>
+
+   **Outputs**:
+
+   <img src="resources/cropped.png" alt="drawing" width="200"/>
+   <img src="resources/grayed.png" alt="drawing" width="200"/>
+   <img src="resources/halftoned.png" alt="drawing" width="200"/>
+
+
+   <!-- ![cropped](resources/cropped.png)
+   ![grayed](resources/grayed.png)
+   ![halftoned](resources/halftoned.png) -->
 
 2. **Run unit tests** (if Google Test is installed):
    ```bash
