@@ -1,7 +1,7 @@
 #include "processors/crop_processor.hpp"
 
 CropProcessor::CropProcessor(OpenCLManager &manager)
-    : ImageProcessor(manager, loadKernelSource("../kernels/crop.cl"), "crop") {
+    : ImageProcessor(manager, loadKernelSource("kernels/crop.cl"), "crop") {
 }
 
 std::vector<cl_uchar4> CropProcessor::process(const std::vector<cl_uchar4> &input_array, //

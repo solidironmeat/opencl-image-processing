@@ -14,12 +14,15 @@ int main(int argc, char *argv[]) {
         std::filesystem::create_directories("resources");
         OpenCLManager manager;
         uint32_t out_width = 200, out_height = 200;
+
         CropProcessor cropper(manager);
         auto cropped = cropper.process(input_array, in_width, in_height, out_width, out_height, 50, 50);
         writeImageArray("resources/cropped.png", cropped, out_width, out_height);
+
         GrayscaleProcessor grayscaler(manager);
         auto grayed = grayscaler.process(input_array, in_width, in_height, in_width, in_height);
         writeImageArray("resources/grayed.png", grayed, in_width, in_height);
+
         HalftoneProcessor halftoner(manager);
         auto halftoned = halftoner.process(grayed, in_width, in_height, in_width, in_height);
         writeImageArray("resources/halftoned.png", halftoned, in_width, in_height);

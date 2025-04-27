@@ -1,7 +1,7 @@
 #include "processors/grayscale_processor.hpp"
 
 GrayscaleProcessor::GrayscaleProcessor(OpenCLManager &manager)
-    : ImageProcessor(manager, loadKernelSource("../kernels/grayscale.cl"), "grayscale") {
+    : ImageProcessor(manager, loadKernelSource("kernels/grayscale.cl"), "grayscale") {
 }
 
 std::vector<cl_uchar4> GrayscaleProcessor::process(const std::vector<cl_uchar4> &input_array, //

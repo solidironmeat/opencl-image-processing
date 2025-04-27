@@ -6,6 +6,7 @@ find_package(GTest QUIET)
 
 if (GTest_FOUND)
     add_executable(run_tests
+        test_image_io.cpp
         test_crop.cpp
         test_grayscale.cpp
         test_halftone.cpp

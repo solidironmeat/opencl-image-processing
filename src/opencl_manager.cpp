@@ -36,19 +36,36 @@ std::string loadKernelSource(const std::string &path) {
 }
 
 std::vector<cl_uchar4> readImageArray(const std::string &file_name) {
-    using namespace OIIO;
-    auto inp = ImageInput::open(file_name);
+    // Open image
+    auto inp = OIIO::ImageInput::open(file_name);
     if (!inp) {
-        throw std::runtime_error("Failed to load image: " + file_name + " (" + geterror() + ")");
+        throw std::runtime_error("Failed to load image: " + file_name + " (" + OIIO::geterror() + ")");
     }
 
-    const ImageSpec &spec = inp->spec();
+    // Get image specification
+    const OIIO::ImageSpec &spec = inp->spec();
     int width = spec.width;
     int height = spec.height;
-    std::vector<unsigned char> pixels(width * height * 4); // RGBA
-    inp->read_image(TypeDesc::UINT8, pixels.data());
+    int channels = spec.nchannels;
+
+    // Ensure RGBA (4 channels)
+    if (channels != 4) {
+        inp->close();
+        throw std::runtime_error("Image must have 4 channels (RGBA): " + file_name + " has "
+                                 + std::to_string(channels));
+    }
+
+    // Allocate pixel buffer
+    std::vector<unsigned char> pixels(width * height * 4); // RGBA, 8-bit
+    // Read image with subimage=0, miplevel=0
+    if (!inp->read_image(0, 0, 0, 4, OIIO::TypeDesc::UINT8, pixels.data())) {
+        std::string err = OIIO::geterror();
+        inp->close();
+        throw std::runtime_error("Failed to read image data: " + file_name + " (" + err + ")");
+    }
     inp->close();
 
+    // Convert to cl_uchar4
     std::vector<cl_uchar4> image_array(width * height);
     for (int i = 0; i < width * height; ++i) {
         image_array[i] = {

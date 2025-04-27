@@ -1,7 +1,7 @@
 #include "processors/halftone_processor.hpp"
 
 HalftoneProcessor::HalftoneProcessor(OpenCLManager &manager)
-    : ImageProcessor(manager, loadKernelSource("../kernels/halftone.cl"), "halftone") {
+    : ImageProcessor(manager, loadKernelSource("kernels/halftone.cl"), "halftone") {
 }
 
 std::vector<cl_uchar4> HalftoneProcessor::process(const std::vector<cl_uchar4> &input_array, //

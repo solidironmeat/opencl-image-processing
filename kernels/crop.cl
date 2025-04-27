@@ -2,6 +2,7 @@ __kernel void crop(__global const uchar4 *input, __global uchar4 *output, uint i
                    uint out_height, uint start_x, uint start_y) {
     int x = get_global_id(0);
     int y = get_global_id(1);
+
     if (x >= out_width || y >= out_height)
         return;
 
